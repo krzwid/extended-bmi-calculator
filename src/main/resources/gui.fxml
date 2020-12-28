@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="299.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bmi.GuiController">
+   <children>
+      <HBox>
+         <children>
+            <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="160.0" text="Height [cm]:" textAlignment="CENTER">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <TextField fx:id="heightText" prefHeight="59.0" prefWidth="446.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextField>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="160.0" text="Weight [kg]:" textAlignment="CENTER">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <TextField fx:id="weightText" prefHeight="59.0" prefWidth="446.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextField>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="160.0" text="Age:" textAlignment="CENTER">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ageText" prefHeight="59.0" prefWidth="446.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextField>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="160.0" text="Style of life:" textAlignment="CENTER">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="professionText" prefHeight="60.0" prefWidth="433.0" promptText="Choose your style of life">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="ski_jumper" />
+                     <String fx:value="runner" />
+                     <String fx:value="sitting_work" />
+                     <String fx:value="physical_work" />
+                     <String fx:value="strong_man" />
+                  </FXCollections>
+               </items>
+            </ComboBox>
+         </children>
+      </HBox>
+      <VBox prefHeight="29.0" prefWidth="598.0">
+         <children>
+            <Button fx:id="calculateButton" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#calculate" prefHeight="65.0" prefWidth="603.0" text="Calculate!">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</VBox>

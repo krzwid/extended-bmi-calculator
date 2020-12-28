@@ -1,0 +1,69 @@
+FUNCTION_BLOCK
+
+VAR_INPUT
+age : REAL;
+physical_work : REAL;
+END_VAR
+
+VAR_OUTPUT
+weight_change : REAL;
+END_VAR
+
+FUZZIFY age
+TERM young := (16, 1) (27, 1) (32, 0.5) (37, 0);
+TERM middle_age := (30, 0) (33,0.5) (36,1) (40, 1) (46, 1) (50, 1) (57,0.5) (65, 0);
+TERM old := (53, 0) (59, 0.5) (65, 1) (75, 1) (100,1);
+END_FUZZIFY
+
+FUZZIFY physical_work
+TERM starvation := (16.83, 1) (17.83, 1) (19.5, 0.5) (20.17, 0);
+TERM emaciation := (19.83, 0) (20, 0.5) (20.17, 1) (20.83, 1) (21, 0.5) (23.25, 0);
+TERM underweight := (20.83, 0) (21, 0.5) (21.25, 1) (22.25, 1) (22.5, 0.5) (23.58, 0);
+TERM desired_body_weight := (22.25, 0) (22.5, 0.5) (23.58, 1) (27.92, 1) (29, 0.5) (31.83, 0);
+TERM overweight := (27.92, 0) (29, 0.5) (29.83, 1) (33.17, 1) (34, 0.5) (34.83, 0);
+TERM obesity := (33.17, 0) (34, 0.5) (34.83, 1) (38.17, 1) (39, 0.5) (39.83, 0);
+TERM high_obesity := (38.17, 0) (39, 0.5) (39.83, 1) (43.17, 1) (44, 0.5) (44.83, 0);
+TERM morbid_obesity := (43.17, 0) (44, 0.5) (44.83, 1) (60.83, 1);
+END_FUZZIFY
+
+DEFUZZIFY weight_change
+TERM thicken := (0, 1) (9.25, 1) (11.5, 0.5) (14.75, 0);
+TERM desired_body_weight := (11, 0) (13.5, 0.5) (15, 1) (19, 1) (21, 0.5) (24, 0);
+TERM lose_weight := (14.75, 0) (17.375, 0.5) (19.4,1) (36, 1);
+METHOD : COG;
+DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK first
+AND: MIN;
+ACT: MIN;
+
+
+RULE 0: IF physical_work IS starvation AND age IS young THEN weight_change IS thicken;
+RULE 1: IF physical_work IS starvation AND age IS middle_age THEN weight_change IS thicken;
+RULE 2: IF physical_work IS starvation AND age IS old THEN weight_change IS thicken;
+RULE 3: IF physical_work IS emaciation AND age IS young THEN weight_change IS thicken;
+RULE 4: IF physical_work IS emaciation AND age IS middle_age THEN weight_change IS thicken;
+RULE 5: IF physical_work IS emaciation AND age IS old THEN weight_change IS thicken;
+RULE 6: IF physical_work IS underweight AND age IS young THEN weight_change IS thicken;
+RULE 7: IF physical_work IS underweight AND age IS middle_age THEN weight_change IS thicken;
+RULE 8: IF physical_work IS underweight AND age IS old THEN weight_change IS desired_body_weight;
+RULE 9: IF physical_work IS desired_body_weight AND age IS young THEN weight_change IS desired_body_weight;
+RULE 10: IF physical_work IS desired_body_weight AND age IS middle_age THEN weight_change IS desired_body_weight;
+RULE 11: IF physical_work IS desired_body_weight AND age IS old THEN weight_change IS desired_body_weight;
+RULE 12: IF physical_work IS overweight AND age IS young THEN weight_change IS desired_body_weight;
+RULE 13: IF physical_work IS overweight AND age IS middle_age THEN weight_change IS desired_body_weight;
+RULE 14: IF physical_work IS overweight AND age IS old THEN weight_change IS desired_body_weight;
+RULE 15: IF physical_work IS obesity AND age IS young THEN weight_change IS desired_body_weight;
+RULE 16: IF physical_work IS obesity AND age IS middle_age THEN weight_change IS lose_weight;
+RULE 17: IF physical_work IS obesity AND age IS old THEN weight_change IS lose_weight;
+RULE 18: IF physical_work IS high_obesity AND age IS young THEN weight_change IS lose_weight;
+RULE 19: IF physical_work IS high_obesity AND age IS middle_age THEN weight_change IS lose_weight;
+RULE 20: IF physical_work IS high_obesity AND age IS old THEN weight_change IS lose_weight;
+RULE 21: IF physical_work IS morbid_obesity AND age IS young THEN weight_change IS lose_weight;
+RULE 22: IF physical_work IS morbid_obesity AND age IS middle_age THEN weight_change IS lose_weight;
+RULE 23: IF physical_work IS morbid_obesity AND age IS old THEN weight_change IS lose_weight;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

@@ -1,0 +1,68 @@
+FUNCTION_BLOCK
+
+VAR_INPUT
+age : REAL;
+runner : REAL;
+END_VAR
+
+VAR_OUTPUT
+weight_change : REAL;
+END_VAR
+
+FUZZIFY age
+TERM young := (16, 1) (27, 1) (32, 0.5) (37, 0);
+TERM middle_age := (30, 0) (33,0.5) (36,1) (40, 1) (46, 1) (50, 1) (57,0.5) (65, 0);
+TERM old := (53, 0) (59, 0.5) (65, 1) (75, 1) (100,1);
+END_FUZZIFY
+
+FUZZIFY runner
+TERM starvation := (14.83, 1) (15.5, 1) (15.6, 0.5) (15.83, 0);
+TERM emaciation := (15.5, 0) (15.6, 0.5) (15.83, 1) (15.9, 1) (16, 0.5) (16.2, 0);
+TERM underweight := (15.9, 0) (16, 0.5) (16.2, 1) (16.63, 1) (16.9, 0.5) (18.35, 0);
+TERM desired_body_weight := (16.63, 0) (16.9, 0.5) (17.15, 1) (18.25, 1) (18.5, 0.5) (19.58, 0);
+TERM overweight := (18.25, 0) (18.5, 0.5) (19.58, 1) (23.92, 1) (25, 0.5) (25.83, 0);
+TERM obesity := (23.92, 0) (25, 0.5) (25.83, 1) (29.17, 1) (30, 0.5) (30.83, 0);
+TERM high_obesity := (29.17, 0) (30, 0.5) (30.83, 1) (34.17, 1) (35, 0.5) (35.83, 0);
+TERM morbid_obesity := (34.17, 0) (35, 0.5) (35.83, 1) (60.83, 1);
+END_FUZZIFY
+
+DEFUZZIFY weight_change
+TERM thicken := (0, 1) (14.25, 1) (16.5, 0.5) (19.75, 0);
+TERM desired_body_weight := (15, 0) (16, 0.5) (18, 1) (21, 1) (23, 0.5) (25, 0);
+TERM lose_weight := (21.75, 0) (25.375, 0.5) (29,1) (43, 1);
+METHOD : COG;
+DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK first
+AND: MIN;
+ACT: MIN;
+
+RULE 0: IF runner IS starvation AND age IS young THEN weight_change IS thicken;
+RULE 1: IF runner IS starvation AND age IS middle_age THEN weight_change IS thicken;
+RULE 2: IF runner IS starvation AND age IS old THEN weight_change IS thicken;
+RULE 3: IF runner IS emaciation AND age IS young THEN weight_change IS thicken;
+RULE 4: IF runner IS emaciation AND age IS middle_age THEN weight_change IS thicken;
+RULE 5: IF runner IS emaciation AND age IS old THEN weight_change IS thicken;
+RULE 6: IF runner IS underweight AND age IS young THEN weight_change IS thicken;
+RULE 7: IF runner IS underweight AND age IS middle_age THEN weight_change IS desired_body_weight;
+RULE 8: IF runner IS underweight AND age IS old THEN weight_change IS desired_body_weight;
+RULE 9: IF runner IS desired_body_weight AND age IS young THEN weight_change IS desired_body_weight;
+RULE 10: IF runner IS desired_body_weight AND age IS middle_age THEN weight_change IS desired_body_weight;
+RULE 11: IF runner IS desired_body_weight AND age IS old THEN weight_change IS desired_body_weight;
+RULE 12: IF runner IS overweight AND age IS young THEN weight_change IS desired_body_weight;
+RULE 13: IF runner IS overweight AND age IS middle_age THEN weight_change IS desired_body_weight;
+RULE 14: IF runner IS overweight AND age IS old THEN weight_change IS lose_weight;
+RULE 15: IF runner IS obesity AND age IS young THEN weight_change IS lose_weight;
+RULE 16: IF runner IS obesity AND age IS middle_age THEN weight_change IS lose_weight;
+RULE 17: IF runner IS obesity AND age IS old THEN weight_change IS lose_weight;
+RULE 18: IF runner IS high_obesity AND age IS young THEN weight_change IS lose_weight;
+RULE 19: IF runner IS high_obesity AND age IS middle_age THEN weight_change IS lose_weight;
+RULE 20: IF runner IS high_obesity AND age IS old THEN weight_change IS lose_weight;
+RULE 21: IF runner IS morbid_obesity AND age IS young THEN weight_change IS lose_weight;
+RULE 22: IF runner IS morbid_obesity AND age IS middle_age THEN weight_change IS lose_weight;
+RULE 23: IF runner IS morbid_obesity AND age IS old THEN weight_change IS lose_weight;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
